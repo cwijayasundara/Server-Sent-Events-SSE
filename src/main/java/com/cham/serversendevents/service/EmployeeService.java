@@ -1,6 +1,7 @@
 package com.cham.serversendevents.service;
 
 import com.cham.serversendevents.domain.Employee;
+import com.cham.serversendevents.domain.EmployeeChanges;
 import com.cham.serversendevents.listener.EmployeeEntryListener;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
@@ -10,13 +11,18 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 import com.hazelcast.map.QueryCache;
 import com.hazelcast.query.SqlPredicate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class EmployeeService {
+
+    @Autowired
+    private KafkaEventConsumer kafkaEventConsumer;
 
     private final static String cacheName="employee-map-cache";
     //private final static String sqlPredicate="name like A% AND age>15 AND salary<600";
@@ -66,4 +72,7 @@ public class EmployeeService {
         }
     }
 
+    public List<EmployeeChanges> getChangeStream(){
+          return kafkaEventConsumer.getEmployeeChangesList();
+    }
 }
