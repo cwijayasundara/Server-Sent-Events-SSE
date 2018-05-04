@@ -19,7 +19,7 @@ public class ValueProducerMain {
         // create the IMap
         IMap<String, Employee> serverEmpMap = client.getMap(mapName);
         // populate data to the server Map
-        serverEmpMap.set("Alice", new Employee("Alice", 20, 500.50));
+        /*serverEmpMap.set("Alice", new Employee("Alice", 20, 500.50));
         serverEmpMap.set("Bob", new Employee("Bob", 45, 1000.56));
         serverEmpMap.set("Sam", new Employee("Sam", 35, 4567.89));
         serverEmpMap.set("Tom", new Employee("Tom", 60, 5000.45));
@@ -27,9 +27,10 @@ public class ValueProducerMain {
         serverEmpMap.set("Alice", new Employee("Alice", 50, 5000.50));
         serverEmpMap.set("Adam", new Employee("Adam", 20, 5000.50));
         serverEmpMap.set("Alice", new Employee("Alice", 22, 345.00));
+        serverEmpMap.set("Alex", new Employee("Alex", 45, 345.56));*/
 
-        serverEmpMap.set("Alex", new Employee("Alex", 35, 345.00));
-
+        serverEmpMap.set("Alan", new Employee("Alan", 20, 345.56));
+        serverEmpMap.set("Alba", new Employee("Alba", 20, 345.56));
 
     }
 }

@@ -3,26 +3,22 @@ package com.cham.serversendevents.service;
 
 import com.cham.serversendevents.domain.EmployeeChanges;
 import com.cham.serversendevents.stream.EventStream;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @Component
 public class KafkaEventConsumer {
 
-    private List<EmployeeChanges> employeeChangesList = new ArrayList<>();
-
-    public List<EmployeeChanges> getEmployeeChangesList() {
-        return employeeChangesList;
-    }
+    @Autowired
+    private OutPutProcessor outPutProcessor;
 
     @StreamListener(EventStream.INPUT)
     public void consumeTweets(@Payload EmployeeChanges event) {
         System.out.println("Received Server Event .." + event);
-        employeeChangesList.add(event);
+        Flux.just(event);
+        outPutProcessor.process(event);
     }
-
 }
