@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
 
 @Component
 public class KafkaEventConsumer {
@@ -18,7 +17,6 @@ public class KafkaEventConsumer {
     @StreamListener(EventStream.INPUT)
     public void consumeTweets(@Payload EmployeeChanges event) {
         System.out.println("Received Server Event .." + event);
-        Flux.just(event);
         outPutProcessor.process(event);
     }
 }

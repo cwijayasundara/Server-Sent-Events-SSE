@@ -14,6 +14,7 @@ import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
 import java.time.Duration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -52,11 +53,27 @@ public class EventPublisherController {
 
         List<EmployeeChanges> changesList = outPutProcessor.getChangeList();
 
+        Iterator itr = changesList.iterator();
+        while(itr.hasNext()){
+            System.out.println(itr);
+        }
+
         Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
         interval.subscribe((i) -> changesList.forEach(changes -> changes.setKey(changes.getKey())));
         Flux<EmployeeChanges> changesFlux = Flux.fromStream(outPutProcessor.getChangeList().stream());
         return Flux.zip(interval, changesFlux).map(Tuple2::getT2);
 
     }
+
+    @GetMapping(value = "/stream/plain", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<EmployeeChanges> plainStream(){
+
+        List<EmployeeChanges> changesList = outPutProcessor.getChangeList();
+        return null;
+
+    }
+
+
+
 
 }
