@@ -66,14 +66,17 @@ public class EventPublisherController {
     }
 
     @GetMapping(value = "/stream/plain", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<EmployeeChanges> plainStream(){
+    public Flux<ServerSentEvent<EmployeeChanges>> plainStream(){
 
         List<EmployeeChanges> changesList = outPutProcessor.getChangeList();
-        return null;
 
+        return Flux.interval(Duration.ofSeconds(1))
+                .map(seq -> Tuples.of(seq, ThreadLocalRandom.current().nextInt()))
+                .map(data -> ServerSentEvent.<EmployeeChanges>builder()
+                        .event("kafka")
+                        .id(changesList.iterator().next().getKey())
+                        .data(changesList.iterator().next())
+                        .build());
     }
-
-
-
 
 }

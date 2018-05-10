@@ -53,6 +53,7 @@ public class EmployeeEntryListener implements EntryAddedListener<String, Employe
             employeeChanges.setSentValue(event.getValue());
             employeeChanges.setMergingValue(event.getMergingValue());
             // publish the event to Kafka
+            System.out.println("Sending event" + employeeChanges.getKey());
             kafkaEventProducer.publishEvents(employeeChanges);
         }
     }

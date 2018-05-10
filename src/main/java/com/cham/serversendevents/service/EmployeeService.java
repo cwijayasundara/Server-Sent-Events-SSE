@@ -43,9 +43,7 @@ public class EmployeeService {
 
             int size = queryCache.size();
             System.out.println("Continuous query cache size = " + size);
-
             employeeCollection.stream().forEach(System.out::println);
-
             return employeeCollection;
         }
     }
